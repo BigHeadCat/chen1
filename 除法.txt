@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+int a[100005];
+long long t[100005];
+int m,n;
+int lowbit(int x)
+{
+	return x&(-x);
+}
+void change(int x,int p)
+{
+	while(x<=m)
+	{
+		t[x]=t[x]+p;
+		x=x+lowbit(x);
+	}
+}
+long long sum(int x)
+{
+	long long ans=0;
+	while(x>0)
+	{
+		ans=ans+t[x];
+		x=x-lowbit(x);
+	}
+	return ans;
+}
+long long ask(int l,int r)
+{
+
+return sum(r)-sum(l-1);
+}
+int main()
+{
+	scanf("%d%d",&m,&n);
+	int i,j;
+	for(i=1;i<=m;i++)
+	{
+		scanf("%d",&a[i]);
+		change(i,a[i]);
+	}
+	for(i=0;i<n;i++)
+	{
+		int flag,l,r,v;
+		scanf("%d",&flag);
+		if(flag==2)
+		{
+			scanf("%d%d",&l,&r);
+			printf("%lld\n",ask(l,r));
+		}
+		else
+		{
+			scanf("%d%d%d",&l,&r,&v);
+			if(v==1) continue;
+			for(j=l;j<=r;j++)
+			{
+				if(a[j]>=v&&a[j]%v==0)
+				{
+					change(j,a[j]/v-a[j]);
+					a[j]=a[j]/v;
+				}
+			}
+		}
+	}
+	return 0;
+}
+					
+
+
+
+
+

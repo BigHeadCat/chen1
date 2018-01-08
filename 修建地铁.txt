@@ -1,0 +1,169 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int a,b;
+	int v;
+};
+bool cmp(node x,node y)
+{
+	return x.v<y.v;
+}
+node e[200005];
+int fa[100005];
+int findset(int u)
+{
+    return fa[u] == u ? u : fa[u] = findset(fa[u]);
+}
+bool checkset(int x, int y)
+{
+    return findset(x) == findset(y);
+}
+void unionset(int x, int y)
+{
+    int p1 = findset(x), p2 = findset(y);
+    if(p1 == p2)
+    {
+        return;
+    }
+    fa[p1] = p2;
+}
+
+/*int t[100005];
+int find1(int x)
+{
+	return t[x]==x?x:find1(t[x]);
+}
+void Union(int x,int y)
+{
+	int a=find1(x);
+	int b=find1(y);
+	if(a<b)
+		t[b]=a;
+	else
+		t[a]=b;
+	
+
+}*/
+/*void klus(node x[],int n,int m)
+{
+	int i;
+	for(i=0;i<m;i++)
+	{
+		if(findset(x[i].a)!=findset(x[i].b))
+		{
+			unionset(x[i].a,x[i].b);
+		}
+		if(findset(1)==findset(n))
+		{
+			printf("%d\n",x[i].v);
+			break;
+		}
+	}
+}*/
+void klus(node x[],int n,int m)
+{
+    	sort(x,x+m,cmp);
+    for(int i = 0; i < m; i++)
+    {
+        if(!checkset(x[i].a, x[i].b))
+        {
+            unionset(x[i].a, x[i].b);
+        }
+        if(checkset(1, n))
+        {
+            printf("%d\n",x[i].v);
+			break;
+        }
+    }
+}
+
+			
+int main()
+{
+	int n,m;
+	scanf("%d%d",&n,&m);
+	int i;
+	for(i=0;i<m;i++)
+	{
+		scanf("%d%d%d",&e[i].a,&e[i].b,&e[i].v);
+	}
+	for(i=1;i<=n;i++)
+		fa[i]=i;
+
+	klus(e,n,m);
+	return 0;
+}
+/*#include<iostream>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int a,b;
+	int v;
+};
+bool cmp(node x,node y)
+{
+	return x.v<y.v;
+}
+node e[200005];
+int t[100005];
+int findset(int x)
+{
+	return t[x]<0?x:findset(t[x]);
+}
+void Unionset(int x,int y)
+{
+	int a=findset(x);
+	int b=findset(y);
+	int temp=t[a]+t[b];
+	if(t[a]<=t[b])
+	{
+		t[b]=a;
+		t[a]=temp;
+	}
+	else
+	{
+		t[a]=b;
+		t[b]=temp;
+	}
+	
+}
+void klus(node x[],int n,int m)
+{
+	int i;
+	for(i=0;i<m;i++)
+	{
+		if(findset(x[i].a)!=findset(x[i].b))
+		{
+				Unionset(x[i].a,x[i].b);
+		}
+		if(findset(1)==findset(n))
+		{
+			printf("%d\n",x[i].v);
+			break;
+		}
+	}
+}
+		
+int main()
+{
+	int n,m;
+	scanf("%d%d",&n,&m);
+	int i;
+	for(i=0;i<m;i++)
+	{
+		scanf("%d%d%d",&e[i].a,&e[i].b,&e[i].v);
+	}
+	for(i=1;i<=n;i++)
+		t[i]=-1;
+    sort(e,e+m,cmp);
+	klus(e,n,m);
+	return 0;
+}
+
+
+*/
+
+
